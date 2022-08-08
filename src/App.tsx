@@ -1,9 +1,19 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import NewsHeader from "./header/NewsHeader";
+import NewsBody from "./body/NewsBody";
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      <NewsHeader />
+      <NewsBody />
+    </div>
+  );
 }
 
 export default App;
+
+// function lowerCase(){}
+
+// function UpperCase(){} ===> Object
+// UpperCase ===> this keyword
