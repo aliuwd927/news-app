@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import searchReducer from "./search/searchSlice";
 
-const initalState = {};
+export const store = configureStore({
+  reducer: {
+    search: searchReducer,
+  },
+});
 
-function reducer(state = initalState, action: any) {
-  return state;
-}
-
-export const store = configureStore({ reducer });
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
