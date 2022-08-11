@@ -1,12 +1,13 @@
+import { response } from "express";
 import React from "react";
-
+import express from "express";
 import { useDispatch } from "react-redux";
 import { updateSearch } from "./searchSlice";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     let grabSerchValue = new FormData(event.currentTarget);
     //Search Bar takes the value of the item we are trying to search on the news website.
@@ -16,6 +17,32 @@ export default function SearchBar() {
       .trim();
     console.log(searchBarValue);
     dispatch(updateSearch(searchBarValue || ""));
+
+    // fetch("http://localhost:4000/").then((response) => {
+    //   console.log(response.json());
+    //   // return response.json();
+    // });
+
+    //Fetch request consists of two await calls.
+    let url = "http://localhost:4000/";
+    // let response = await fetch(url);
+    // let result = await response.json();
+
+    let post = await fetch(url, {
+      method: "POST",
+
+      body: JSON.stringify({
+        value: "test",
+      }),
+
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    let postResult = await post.json();
+    console.log(postResult);
+
+    //Left off at middle ware expressJS.
   }
 
   return (

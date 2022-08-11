@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-type ArticleTitle = {
-  title: string;
+type ArticleSearchKeyword = {
+  keyword: string;
 };
 type Pokemon = {
   name: string;
@@ -9,10 +9,10 @@ type Pokemon = {
 
 export const searchApi = createApi({
   reducerPath: "searchApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://localhost:4000" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://localhost:4000" }), //add the bbc website here
   endpoints: (builder) => ({
-    getSearchKeyword: builder.query<ArticleTitle, string>({
-      query: (word) => `/search/${word}`,
+    getSearchKeyword: builder.query<ArticleSearchKeyword, string>({
+      query: (word) => `/search?q=${word}`, //This needs to changed  *** may use this??? --> https://www.bbc.co.uk/search?q=jwst   ===> https://www.bbc.co.uk/search?q={word}
     }),
     getPokemon: builder.query<Pokemon, string>({
       query: (pokemon) => `/pokemon/${pokemon}`,
@@ -20,6 +20,8 @@ export const searchApi = createApi({
   }),
 });
 
+// use_Query --> _ is filled in by our endpoint, see getSearchKeyword
+// this then becomes useGetSearchKeywordQuery ( see below )
 export const { useGetSearchKeywordQuery, useGetPokemonQuery } = searchApi;
 
 /*
@@ -34,6 +36,19 @@ export const pokemonApi = createApi({
     }),
   }),
 })
+
+
+
+
+creekburn: The query portion of the url, is the stuff after the `?`. 
+          In express, that will be `res.query`. In this example, `res.query.q = 'jwst'`
+
+creekburn: Looks like if you change the `baseQuery`, then it won't send the information to your server any more.
+
+creekburn: A large part of express is to give a simple interface to the parts of an HTTP request/response. 
+          Learning all the parts will help you know what to look for.
+
+
 
 
 */
