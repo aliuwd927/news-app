@@ -1,6 +1,4 @@
-import { response } from "express";
 import React from "react";
-import express from "express";
 import { useDispatch } from "react-redux";
 import { updateSearch } from "./searchSlice";
 
@@ -15,7 +13,6 @@ export default function SearchBar() {
       .get("searchBarValue")
       ?.toString()
       .trim();
-    console.log(searchBarValue);
     dispatch(updateSearch(searchBarValue || ""));
 
     // fetch("http://localhost:4000/").then((response) => {
@@ -24,23 +21,38 @@ export default function SearchBar() {
     // });
 
     //Fetch request consists of two await calls.
-    let url = "http://localhost:4000/";
+
     // let response = await fetch(url);
     // let result = await response.json();
+    //let params = new URLSearchParams({ searchBarValue });
 
-    let post = await fetch(url, {
+    await fetch(`http://localhost:4000/pokemon/${searchBarValue}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    await fetch(`http://localhost:4000/pokemon/`, {
       method: "POST",
-
-      body: JSON.stringify({
-        value: "test",
-      }),
-
+      body: JSON.stringify({ name: searchBarValue }),
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        "Content-Type": "application/json",
       },
-    });
-    let postResult = await post.json();
-    console.log(postResult);
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     //Left off at middle ware expressJS.
   }
