@@ -13,6 +13,7 @@ export default function SearchBar() {
       .get("searchBarValue")
       ?.toString()
       .trim();
+
     //Fetch request consists of two await calls.
 
     let htmlObj: string[] = [];
