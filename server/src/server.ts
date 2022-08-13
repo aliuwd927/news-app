@@ -1,54 +1,35 @@
 import express from "express";
-import { Router } from "express";
 import type  { Request , Response } from "express";
 import * as puppeteer from "puppeteer";
 const cors = require('cors');
 
 
+interface ServerQuery{
+  url:string;
+}
+
+interface CustomRequest extends Request{
+  query:{url:string};
+}
+
 const app = express();
-const router = express.Router();
 const port = 4000;
 app.use(cors(),express.json());
 
-
-
-
-// app.get("/server", async (req: Request, res: Response) => {
-//   const browser = await puppeteer.launch();
-//   const page = await browser.newPage();
-//   await page.goto("https://example.com"); // URL is given by the "user" (your client-side application)
-//   const screenshotBuffer = await page.screenshot();
-
-//   // Respond with the image
-//   res.writeHead(200, {
-//     "Content-Type": "image/png",
-//     "Content-Length": screenshotBuffer.length,
-//   });
-//   res.end(screenshotBuffer);
-
-//   await browser.close();
-// });
-
-
-
-//This will tell us when the API is connected with localhost:4000
-// app.get("/",async (req:Request, res: Response) => {
-//   res.json(req.params)
-// })
-
-
-
-app.get("/pokemon/:name", (req, res) => {
-    // const data = req.params.name;
-    const {name} = req.params;
-    return res.json(name)
-})
-
-app.post("/pokemon/",(req, res) => {
-    const data = {name: req.body.name}
-    res.json(data)
-    console.log(res.json(data))
-  })
+app.get("/", async (req: CustomRequest /*Request<{},{},{},ServerQuery>*/, res: Response) => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  let url:string = req.query.url;
+  await page.goto(url); // URL is given by the "user" (your client-side application)
+  const contentBuffer = await page.$$eval('article',(articalTag => {
+    return articalTag.map((element)=>{
+      return element.innerHTML;
+    })
+  }));
+  res.json(contentBuffer);
+  
+  await browser.close();
+});
 
 app.listen(port);
 
@@ -126,3 +107,21 @@ https://github.com/checkly/puppeteer-examples/blob/master/1.%20basics/get_title.
 Step 3:
 https://github.com/checkly/puppeteer-examples/blob/master/1.%20basics/get_list_of_links.js
 */
+
+
+
+
+
+//Below is pokemon
+
+// app.get("/pokemon/:name", (req, res) => {
+//     // const data = req.params.name;
+//     const {name} = req.params;
+//     return res.json(name)
+// })
+
+// app.post("/pokemon/",(req, res) => {
+//     const data = {name: req.body.name}
+//     res.json(data)
+//     console.log(res.json(data))
+//   })

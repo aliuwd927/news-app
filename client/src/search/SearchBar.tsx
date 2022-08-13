@@ -13,48 +13,25 @@ export default function SearchBar() {
       .get("searchBarValue")
       ?.toString()
       .trim();
-    dispatch(updateSearch(searchBarValue || ""));
-
-    // fetch("http://localhost:4000/").then((response) => {
-    //   console.log(response.json());
-    //   // return response.json();
-    // });
-
     //Fetch request consists of two await calls.
 
-    // let response = await fetch(url);
-    // let result = await response.json();
-    //let params = new URLSearchParams({ searchBarValue });
+    let htmlObj: string[] = [];
 
-    await fetch(`http://localhost:4000/pokemon/${searchBarValue}`)
+    await fetch(
+      `http://localhost:4000/?url=https://hn.algolia.com/?q=${searchBarValue}`
+    )
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        htmlObj = data;
+        console.log(htmlObj);
       })
       .catch((error) => {
         console.log(error);
       });
 
-    await fetch(`http://localhost:4000/pokemon/`, {
-      method: "POST",
-      body: JSON.stringify({ name: searchBarValue }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    //Left off at middle ware expressJS.
+    dispatch(updateSearch(htmlObj));
   }
 
   return (
@@ -99,4 +76,41 @@ export default function SearchBar() {
       Use that common theme to pull data.
       
 
+
+
+
+      tom1269_: you can do <div contentEditable='true' dangerouslySetInnerHTML={{ __html: htmlObj }}></div>
+
 */
+
+// This is for pokemon
+
+// await fetch(`http://localhost:4000/pokemon/${searchBarValue}`)
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log("GET:");
+//     console.log(data);
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+
+// await fetch(`http://localhost:4000/pokemon/`, {
+//   method: "POST",
+//   body: JSON.stringify({ name: searchBarValue }),
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// })
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log("POST:");
+//     console.log(data);
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
