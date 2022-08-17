@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateSearch } from "./searchSlice";
-import { RootState, store } from "../store";
+import { keywordSearch, updateSearch } from "./searchSlice";
+import { RootState } from "../store";
+import { useGetSearchKeywordQuery } from "../service/searchApi";
 
 export default function SearchBar() {
-  const store = useSelector((state: RootState) => state.search.value);
+  const storeKeyWord = useSelector((state: RootState) => state.search.keyword);
   const dispatch = useDispatch();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const { data, error, isLoading, isSuccess } =
+    useGetSearchKeywordQuery(storeKeyWord);
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     let grabSerchValue = new FormData(event.currentTarget);
     //Search Bar takes the value of the item we are trying to search on the news website.
-    let searchBarValue = grabSerchValue
+    let searchBarValue: any = grabSerchValue
       .get("searchBarValue")
       ?.toString()
       .trim();
@@ -20,21 +24,10 @@ export default function SearchBar() {
 
     let htmlObj: string[] = [];
 
-    await fetch(
-      `http://localhost:4000/?url=https://hn.algolia.com/?q=${searchBarValue}`
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        htmlObj = data;
-        //console.log(htmlObj);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log(data, error);
 
     dispatch(updateSearch(htmlObj));
+    dispatch(keywordSearch(searchBarValue));
   }
 
   return (

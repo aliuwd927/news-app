@@ -1,15 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 type ArticleSearchKeyword = {
-  keyword: string[];
+  keyword: string;
 };
 
 export const searchApi = createApi({
   reducerPath: "searchApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000/" }), //add the bbc website here
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000" }), //add the bbc website here
   endpoints: (builder) => ({
     getSearchKeyword: builder.query<ArticleSearchKeyword, string>({
-      query: (word) => `/search?q=${word}`, //This needs to changed  *** may use this??? --> https://www.bbc.co.uk/search?q=jwst   ===> https://www.bbc.co.uk/search?q={word}
+      query: (word: string) => ({
+        url: "/",
+        params: { url: `https://hn.algolia.com/?q=${word}` },
+      }), //This needs to changed  *** may use this??? --> https://www.bbc.co.uk/search?q=jwst   ===> https://www.bbc.co.uk/search?q={word}
     }),
   }),
 });
@@ -43,6 +46,6 @@ creekburn: A large part of express is to give a simple interface to the parts of
           Learning all the parts will help you know what to look for.
 
 
-
+https://stackblitz.com/edit/vitejs-vite-sebhmo?file=src%2Fservices%2Fsearch.ts,src%2Fstore.ts,src%2Fcomponents%2FSearchWithFetch.tsx,src%2Fcomponents%2FSearchWithRTK.tsx,src%2Fcomponents%2FSearchShell.tsx&terminal=dev
 
 */
