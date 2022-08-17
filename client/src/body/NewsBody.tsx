@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 export default function NewsBody() {
   const displayState = useSelector((state: RootState) => state.search.value);
-  console.log(displayState);
+  //console.log(displayState);
   return (
     <div className="newsBody">
       <div>

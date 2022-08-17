@@ -1,8 +1,10 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { updateSearch } from "./searchSlice";
+import { RootState, store } from "../store";
 
 export default function SearchBar() {
+  const store = useSelector((state: RootState) => state.search.value);
   const dispatch = useDispatch();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -26,7 +28,7 @@ export default function SearchBar() {
       })
       .then((data) => {
         htmlObj = data;
-        console.log(htmlObj);
+        //console.log(htmlObj);
       })
       .catch((error) => {
         console.log(error);
@@ -81,6 +83,26 @@ export default function SearchBar() {
 
 
       tom1269_: you can do <div contentEditable='true' dangerouslySetInnerHTML={{ __html: htmlObj }}></div>
+
+
+
+
+      await fetch(
+      `http://localhost:4000/?url=https://hn.algolia.com/?q=${searchBarValue}`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        htmlObj = data;
+        //console.log(htmlObj);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    dispatch(updateSearch(htmlObj));
+  }
 
 */
 
