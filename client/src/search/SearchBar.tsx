@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { keywordSearch } from "./searchSlice";
 
 export default function SearchBar() {
-  // There is no reason to read this value from state, since we only need to set the state from the `<input>` 
+  // There is no reason to read this value from state, since we only need to set the state from the `<input>`
   // const storeKeyWord = useSelector((state: RootState) => state.search.keyword);
   const dispatch = useDispatch();
 
@@ -13,12 +13,10 @@ export default function SearchBar() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    let grabSerchValue = new FormData(event.currentTarget);
+    let grabSerchValue: FormData = new FormData(event.currentTarget);
     //Search Bar takes the value of the item we are trying to search on the news website.
-    let searchBarValue: any = grabSerchValue
-      .get("searchBarValue")
-      ?.toString()
-      .trim();
+    let searchBarValue: string =
+      grabSerchValue.get("searchBarValue")?.toString().trim() ?? "";
 
     //Fetch request consists of two await calls.
 

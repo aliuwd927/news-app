@@ -14,7 +14,15 @@ export const searchApi = createApi({
       query: (word: string) => ({
         url: "/",
         params: { url: `https://hn.algolia.com/?q=${word}` },
-      }), //This needs to changed  *** may use this??? --> https://www.bbc.co.uk/search?q=jwst   ===> https://www.bbc.co.uk/search?q={word}
+        // This seems like the best solution.
+        //https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#performing-multiple-requests-with-a-single-query
+
+        //https://medium.com/nmc-techblog/rtk-query-best-practices-e0296d1679e6
+        //https://github.com/reduxjs/redux-toolkit/issues/1891
+        //READ THIS YOU IDIOT
+        //onQueryStarted for multiple api calls
+      }),
+      //This needs to changed  *** may use this??? --> https://www.bbc.co.uk/search?q=jwst   ===> https://www.bbc.co.uk/search?q={word}
     }),
   }),
 });
