@@ -20,7 +20,8 @@ app.get("/", async (req: CustomRequest /*Request<{},{},{},ServerQuery>*/, res: R
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   let url:string = req.query.url;
-  await page.goto(url); // URL is given by the "user" (your client-side application)
+  // https://hn.algolia.com/ is a SPA, so the initial HTML does not have any content.  Need to wait a bit for the JS to fetch actual data.
+  await page.goto(url, { waitUntil: 'networkidle2'}); // URL is given by the "user" (your client-side application)
   const contentBuffer = await page.$$eval('article',(articalTag => {
     return articalTag.map((element)=>{
       return element.innerHTML;

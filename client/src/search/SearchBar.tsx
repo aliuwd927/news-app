@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { keywordSearch, updateSearch } from "./searchSlice";
-import { RootState } from "../store";
-import { useGetSearchKeywordQuery } from "../service/searchApi";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { keywordSearch } from "./searchSlice";
 
 export default function SearchBar() {
-  const storeKeyWord = useSelector((state: RootState) => state.search.keyword);
+  // There is no reason to read this value from state, since we only need to set the state from the `<input>` 
+  // const storeKeyWord = useSelector((state: RootState) => state.search.keyword);
   const dispatch = useDispatch();
 
-  const { data, error, isLoading, isSuccess } =
-    useGetSearchKeywordQuery(storeKeyWord);
+  // We will not need to perform in this componenent.
+  // const { data, error, isLoading, isSuccess } =
+  //   useGetSearchKeywordQuery(storeKeyWord);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -22,11 +22,10 @@ export default function SearchBar() {
 
     //Fetch request consists of two await calls.
 
-    let htmlObj: string[] = [];
+    // Not needed, since we will only need a single string for the search value.
+    // let htmlObj: string[] = [];
 
-    console.log(data, error);
-
-    dispatch(updateSearch(htmlObj));
+    // dispatch(updateSearch(htmlObj));
     dispatch(keywordSearch(searchBarValue));
   }
 

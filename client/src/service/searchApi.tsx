@@ -1,14 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-type ArticleSearchKeyword = {
-  keyword: string;
-};
+// I guess this is suppose to define the return type, but that was not working
+// type ArticleSearchKeyword = {
+//   length: number,
+//   tags: string[]
+// };
 
 export const searchApi = createApi({
   reducerPath: "searchApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000" }), //add the bbc website here
   endpoints: (builder) => ({
-    getSearchKeyword: builder.query<ArticleSearchKeyword, string>({
+    getSearchKeyword: builder.query<string[], string>({
       query: (word: string) => ({
         url: "/",
         params: { url: `https://hn.algolia.com/?q=${word}` },
