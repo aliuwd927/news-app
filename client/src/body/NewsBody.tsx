@@ -1,6 +1,7 @@
 import type { RootState } from "../store";
 import { useSelector } from "react-redux";
 import { useGetSearchKeywordQuery } from "../service/searchApi";
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 export default function NewsBody() {
   // change to keyword, since that is what is set from <SearchBar>
@@ -10,27 +11,25 @@ export default function NewsBody() {
 
   // We use the query in the location where we will use the data.
 
-  const {
-    posts,
-    isLoading: loading,
-    isSuccess: success,
-  } = useGetSearchKeywordQuery(displayState, {
-    selectFromResult: ({ data, isSuccess, isLoading }) => ({
-      posts: data ? data[0] : "",
-      isSuccess,
-      isLoading,
-    }),
-  });
+  const { data, isLoading, isSuccess } = useGetSearchKeywordQuery(
+    displayState,
+    { skip: !displayState }
+  );
 
   return (
     <div className="newsBody">
-      {loading && <div>Loading search "{displayState}"</div>}
-      <div>
-        {success &&
-          [posts].map((post: string, index: number) => (
-            <article key={index} dangerouslySetInnerHTML={{ __html: post }} />
-          ))}
-      </div>
+      {isLoading && <div>Loading search "{displayState}"</div>}
+      {isSuccess && (
+        <div dangerouslySetInnerHTML={{ __html: data?.apiOne[0] || "" }}></div>
+      )}
+      {isSuccess && (
+        <div dangerouslySetInnerHTML={{ __html: data?.apiTwo[1] || "" }}></div>
+      )}
+      {isSuccess && (
+        <div
+          dangerouslySetInnerHTML={{ __html: data?.apiThree[2] || "" }}
+        ></div>
+      )}
     </div>
   );
 }
@@ -47,4 +46,59 @@ export default function NewsBody() {
           [data[0]].map((tag: string, index: number) => (
             <article key={index} dangerouslySetInnerHTML={{ __html: tag }} />
           ))}
+ */
+
+/**
+ * 
+ * https://stackblitz.com/edit/vitejs-vite-vbv8kj?file=src%2FApp.tsx,src%2Fservices%2Fposts.ts,src%2Fstore.ts&terminal=dev
+ * 
+ * const {
+    data,
+    isLoading: loadingLeft,
+    isSuccess: successLeft,
+  } = useGetSearchKeywordQuery(displayState, {
+    selectFromResult: ({ data, isSuccess, isLoading }) => ({
+      data: data ? data[0] : "",
+      isSuccess,
+      isLoading,
+    }),
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   return (
+    <div className="newsBody">
+      {isLoading && <div>Loading search "{displayState}"</div>}
+      <div>
+        {isSuccess &&
+          data?.apiOne.map((tag: string, index: number) => (
+            <article key={index} dangerouslySetInnerHTML={{ __html: tag }} />
+          ))}
+        ,
+        {isSuccess &&
+          data?.apiTwo.map((tag: string, index: number) => (
+            <article key={index} dangerouslySetInnerHTML={{ __html: tag }} />
+          ))}
+        ,
+        {isSuccess &&
+          data?.apiThree.map((tag: string, index: number) => (
+            <article key={index} dangerouslySetInnerHTML={{ __html: tag }} />
+          ))}
+      </div>
+    </div>
+  );
  */
