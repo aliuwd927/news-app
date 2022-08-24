@@ -21,11 +21,13 @@ export const searchApi = createApi({
         });
         const testApiTwo = await fetchWithBQ({
           url: "/",
-          params: { url: `https://hn.algolia.com/?q=${_arg}` },
+          params: { url: `https://www.npr.org/search/?query=${_arg}` },
         });
         const testApiThree = await fetchWithBQ({
           url: "/",
-          params: { url: `https://hn.algolia.com/?q=${_arg}` },
+          params: {
+            url: `https://www.foxnews.com/search-results/search?q=${_arg}`,
+          },
         });
         return {
           data: {

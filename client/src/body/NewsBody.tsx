@@ -1,7 +1,6 @@
 import type { RootState } from "../store";
 import { useSelector } from "react-redux";
 import { useGetSearchKeywordQuery } from "../service/searchApi";
-import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 export default function NewsBody() {
   // change to keyword, since that is what is set from <SearchBar>
@@ -15,6 +14,8 @@ export default function NewsBody() {
     displayState,
     { skip: !displayState }
   );
+
+  console.log(data?.apiOne);
 
   return (
     <div className="newsBody">
