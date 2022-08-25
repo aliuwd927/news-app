@@ -24,9 +24,15 @@ app.get("/", async (req: CustomRequest /*Request<{},{},{},ServerQuery>*/, res: R
   await page.goto(url, { waitUntil: 'networkidle2'}); // URL is given by the "user" (your client-side application)
   const contentBuffer = await page.$$eval('article',(articalTag => {
     return articalTag.map((element)=>{
-      return element.innerHTML;
+      return { main: element.innerHTML,
+                img: element.querySelector('img')?.src,
+                getImgRole: (element.querySelector(".widget__image")as HTMLElement)?.style.backgroundImage,
+                titleAll: element.querySelector('h1,h3,h4')?.textContent,
+      };
     })
   }));
+ 
+
   res.json(contentBuffer);
   
   await browser.close();

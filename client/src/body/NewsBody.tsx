@@ -15,24 +15,19 @@ export default function NewsBody() {
     { skip: !displayState }
   );
 
-  console.log(JSON.stringify(data?.apiOne[0]));
-  console.log(JSON.stringify(data?.apiTwo[0]));
-  console.log(JSON.stringify(data?.apiThree[0]));
+  let getImgURL = (data?.apiOne[0] as any)?.getImgRole;
+  let getImgURLSlice = getImgURL?.slice(5, -2);
+
+  console.log((data?.apiOne[0] as any)?.titleAll);
+  console.log((data?.apiTwo[0] as any)?.titleAll);
+  console.log((data?.apiThree[0] as any)?.titleAll);
 
   return (
     <div className="newsBody">
       {isLoading && <div>Loading search "{displayState}"</div>}
-      {isSuccess && (
-        <div dangerouslySetInnerHTML={{ __html: data?.apiOne[0] || "" }}></div>
-      )}
-      {isSuccess && (
-        <div dangerouslySetInnerHTML={{ __html: data?.apiTwo[0] || "" }}></div>
-      )}
-      {isSuccess && (
-        <div
-          dangerouslySetInnerHTML={{ __html: data?.apiThree[0] || "" }}
-        ></div>
-      )}
+      {isSuccess && <img src={getImgURLSlice} alt="img" />}
+      {isSuccess && <img src={(data?.apiTwo[0] as any).img} alt="img"></img>}
+      {isSuccess && <img src={(data?.apiThree[0] as any).img} alt="img"></img>}
     </div>
   );
 }
@@ -104,4 +99,15 @@ export default function NewsBody() {
       </div>
     </div>
   );
+
+
+
+
+  {isSuccess && (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: (data?.apiThree[0] as any).img || "",
+          }}
+        ></div>
+      )}
  */
