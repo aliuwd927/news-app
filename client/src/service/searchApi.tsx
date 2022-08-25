@@ -17,16 +17,18 @@ export const searchApi = createApi({
       async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
         const testApiOne = await fetchWithBQ({
           url: "/",
-          params: { url: `https://hn.algolia.com/?q=${_arg}` },
+          params: { url: `https://www.rawstory.com/search/?q=${_arg}` },
         });
         const testApiTwo = await fetchWithBQ({
           url: "/",
-          params: { url: `https://www.npr.org/search/?query=${_arg}` },
+          params: {
+            url: `https://www.newsweek.com/search/site/?q=${_arg}&op=Search&form_build_id=form-fZ682WsdOVy0CvQPbIUL2T6In25EQtbU6DClgu3ttr8&form_token=NjTiMzKKqA3lZiZaca71FcNN-AlbGkwHKY6-BFpKd3U&form_id=search_block_form`,
+          },
         });
         const testApiThree = await fetchWithBQ({
           url: "/",
           params: {
-            url: `https://www.foxnews.com/search-results/search?q=${_arg}`,
+            url: `https://www.nationalreview.com/search/?s=${_arg}`,
           },
         });
         return {

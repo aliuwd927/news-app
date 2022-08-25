@@ -15,7 +15,9 @@ export default function NewsBody() {
     { skip: !displayState }
   );
 
-  console.log(data?.apiOne);
+  console.log(JSON.stringify(data?.apiOne[0]));
+  console.log(JSON.stringify(data?.apiTwo[0]));
+  console.log(JSON.stringify(data?.apiThree[0]));
 
   return (
     <div className="newsBody">
@@ -24,11 +26,11 @@ export default function NewsBody() {
         <div dangerouslySetInnerHTML={{ __html: data?.apiOne[0] || "" }}></div>
       )}
       {isSuccess && (
-        <div dangerouslySetInnerHTML={{ __html: data?.apiTwo[1] || "" }}></div>
+        <div dangerouslySetInnerHTML={{ __html: data?.apiTwo[0] || "" }}></div>
       )}
       {isSuccess && (
         <div
-          dangerouslySetInnerHTML={{ __html: data?.apiThree[2] || "" }}
+          dangerouslySetInnerHTML={{ __html: data?.apiThree[0] || "" }}
         ></div>
       )}
     </div>
